@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
-import { AddShoppingCart } from "@mui/icons-material"; 
+import { AddShoppingCart } from "@mui/icons-material";
+import { useAppDispatch } from "@/lib/redux/hooks";
+import { addToCart } from "@/lib/redux/features/cartSlice";
 
 interface ProductCardProps {
   product: {
@@ -12,6 +16,20 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const dispatch = useAppDispatch();
+
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        quantity: 1,
+      })
+    );
+  };
+
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-xl border border-gray-100 bg-white transition-all duration-300 hover:border-teal-100 hover:shadow-lg">
       <div className=" aspect-square w-full overflow-hidden bg-gray-50 p-4">
@@ -42,7 +60,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
               currency: "VND",
             }).format(product.price)}
           </p>
-              <AddShoppingCart sx={{ fontSize: 20 }} />
+          <button onClick={handleAddToCart}>
+            <AddShoppingCart sx={{ fontSize: 20 }} />
+          </button>
         </div>
       </div>
     </div>

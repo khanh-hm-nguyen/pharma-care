@@ -1,3 +1,5 @@
+"use client";
+
 import {
   LocationOnOutlined,
   LocalHospitalOutlined,
@@ -6,7 +8,12 @@ import {
 } from "@mui/icons-material";
 import Link from "next/link";
 
+import { useAppSelector } from "@/lib/redux/hooks";
+
 const HeaderActions = () => {
+  const cartItems = useAppSelector((state) => state.cart.items);
+
+  const itemCount = cartItems.reduce((total: number, item: number) => total + item.quantity, 0);
   return (
     <div className="flex items-center gap-3 md:gap-6">
       <Link
@@ -39,10 +46,11 @@ const HeaderActions = () => {
         className="relative flex flex-col items-center gap-1 text-gray-500 hover:text-teal-600 transition-colors p-1"
       >
         <ShoppingCartOutlined sx={{ fontSize: { xs: 26, md: 24 } }} />
-
-        <span className="absolute -right-1 top-0 md:-top-1 flex h-4 w-4 md:h-4 md:w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-sm ring-1 ring-white">
-          3
-        </span>
+        {itemCount > 0 && (
+          <span className="absolute -right-1 -top-1 ... bg-red-500 ...">
+            {itemCount}
+          </span>
+        )}
         <span className="hidden md:block text-[10px] font-medium uppercase">
           Cart
         </span>
