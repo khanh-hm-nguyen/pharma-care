@@ -1,4 +1,4 @@
-import { SOCIAL_LINKS } from "@/data/navigations.data";
+import { SOCIAL_LINKS } from "@/data";
 import Link from "next/link";
 
 const SocialLinks = () => {

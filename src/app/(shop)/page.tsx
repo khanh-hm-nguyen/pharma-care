@@ -1,5 +1,11 @@
+import { HomePage } from "@/components/layout/home";
 
+const page = () => {
+  return (
+    <>
+      <HomePage />
+    </>
+  );
+};
 
-export default function Home() {
-  return <div className=""></div>;
-}
+export default page;

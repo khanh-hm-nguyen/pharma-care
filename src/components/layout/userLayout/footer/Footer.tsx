@@ -3,7 +3,7 @@ import { Logo } from "../header";
 import {
   FOOTER_SECTIONS,
   CONTACT_INFO,
-} from "@/data/navigations.data";
+} from "@/data";
 
 const Footer = () => {
   return (
