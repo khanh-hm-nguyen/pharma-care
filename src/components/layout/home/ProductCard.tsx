@@ -21,18 +21,16 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const handleAddToCart = () => {
     dispatch(
       addToCart({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        imageUrl: product.imageUrl,
+        ...product,
         quantity: 1,
       })
     );
+    //console.log("added")
   };
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-xl border border-gray-100 bg-white transition-all duration-300 hover:border-teal-100 hover:shadow-lg">
-      <div className=" aspect-square w-full overflow-hidden bg-gray-50 p-4">
+      <div className="relative aspect-square w-full overflow-hidden bg-gray-50 p-4">
         <Image
           src={product.imageUrl}
           alt={product.name}
@@ -61,7 +59,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             }).format(product.price)}
           </p>
           <button onClick={handleAddToCart}>
-            <AddShoppingCart sx={{ fontSize: 20 }} />
+            <AddShoppingCart sx={{ fontSize: 20 }}  className="hover:text-teal-700 cursor-pointer"/>
           </button>
         </div>
       </div>
