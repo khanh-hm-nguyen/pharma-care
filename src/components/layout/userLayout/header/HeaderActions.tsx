@@ -13,8 +13,6 @@ import { useAppSelector } from "@/lib/redux/hooks";
 const HeaderActions = () => {
   const cartItems = useAppSelector((state) => state.cart);
 
-  console.log (cartItems.quantity)
-
   return (
     <div className="flex items-center gap-3 md:gap-6">
       <Link
