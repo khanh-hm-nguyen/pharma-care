@@ -40,7 +40,7 @@ const CartSchema = new Schema<ICart>(
   }
 );
 
-CartSchema.index({ user: 1 });
+//CartSchema.index({ user: 1 });
 
 const Cart = models.Cart || model<ICart>('Cart', CartSchema);
 export default Cart;

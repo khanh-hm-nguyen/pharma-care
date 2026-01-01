@@ -63,7 +63,7 @@ const UserSchema = new Schema<IUser>(
   }
 );
 
-// --- MIDDLEWARE (The "Senior" Part) ---
+// --- MIDDLEWARE ---
 
 // 1. Pre-save hook to hash password
 UserSchema.pre("save", async function (next) {
@@ -86,8 +86,6 @@ UserSchema.methods.comparePassword = async function (
 };
 
 // --- INDEXES ---
-// Email index is automatically created by unique: true
-// We might want an index on role if we frequently filter users by role
 UserSchema.index({ role: 1 });
 
 const User = models.User || model<IUser>("User", UserSchema);

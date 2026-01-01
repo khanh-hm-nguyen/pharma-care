@@ -3,10 +3,10 @@ import { Schema, model, models, Document, Types } from 'mongoose';
 // Sub-document interface for line items
 interface IOrderItem {
   product: Types.ObjectId;
-  name: string;      // Snapshot
-  price: number;     // Snapshot
+  name: string;     
+  price: number;     
   quantity: number;
-  image: string;     // Snapshot
+  image: string;    
 }
 
 // Sub-document interface for shipping

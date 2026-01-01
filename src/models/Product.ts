@@ -28,7 +28,7 @@ const ProductSchema = new Schema<IProduct>(
       type: String,
       unique: true,
       lowercase: true,
-      index: true, // For fast lookup by URL
+      index: true, 
     },
     description: {
       type: String,
@@ -99,10 +99,10 @@ ProductSchema.pre('save', function (next) {
 // --- INDEXES ---
 
 // Compound Index: Optimizes "Show me Skincare products sorted by Price"
-ProductSchema.index({ category: 1, price: 1 });
+//ProductSchema.index({ category: 1, price: 1 });
 
 // Text Index: Enables search functionality (e.g. searching "Panadol")
-ProductSchema.index({ name: 'text', description: 'text', category: 'text' });
+//ProductSchema.index({ name: 'text', description: 'text', category: 'text' });
 
 const Product = models.Product || model<IProduct>('Product', ProductSchema);
 export default Product;
