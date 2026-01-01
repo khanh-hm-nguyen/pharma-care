@@ -26,19 +26,19 @@ export class ProductService {
     data: Partial<IProduct>
   ): Promise<IProduct | null> {
     const updatedProduct = await Product.findByIdAndUpdate(id, data, {
-      new: true, // Return the updated document
-      runValidators: true, // Enforce schema rules (min price, required fields, etc.)
+      new: true,
+      runValidators: true,
     }).lean<IProduct>();
 
     return updatedProduct;
   }
 
   // delete product
-  static async deleteProduct(id: string): Promise<boolean> {
+  static async deleteProduct(id: string): Promise<IProduct | null> {
     const deletedProduct = await Product.findByIdAndDelete(id);
+    if (!deletedProduct) return null;
 
-    // returns true if a document was found and deleted, false otherwise
-    return !!deletedProduct;
+    return deletedProduct;
   }
 
   // get product by slug

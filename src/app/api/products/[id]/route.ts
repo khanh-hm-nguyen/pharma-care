@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db/mongodb";
 import { ProductService } from "@/services/product.service";
+import { verifyAdmin } from "@/utils/auth-guard";
+import { handleCommonErrors } from "@/utils/errorHandler";
 
 type RouteParams = {
   params: Promise<{
@@ -35,32 +37,69 @@ export async function GET(
       { status: 200 }
     );
   } catch (error) {
-    // Log error for debugging (only in development)
-    if (process.env.NODE_ENV === "development") {
-      console.error("Error fetching events by slug:", error);
-    }
+    return handleCommonErrors(error);
+  }
+}
 
-    // Handle specific error types
-    if (error instanceof Error) {
-      // Handle database connection errors
-      if (error.message.includes("MONGODB_URI")) {
-        return NextResponse.json(
-          { message: "Database configuration error" },
-          { status: 500 }
-        );
-      }
+/**
+ * PUT /api/products/[id]
+ * Updates a product (Admin Only)
+ */
+export async function PUT(req: NextRequest, { params }: RouteParams) {
+  try {
+    // 1. Security Check
+    verifyAdmin(req);
 
-      // Return generic error with error message
+    await connectDB();
+    const { id } = await params;
+    const data = await req.json();
+
+    // 2. Service Call
+    const updatedProduct = await ProductService.updateProduct(id, data);
+
+    if (!updatedProduct) {
       return NextResponse.json(
-        { message: "Failed to fetch events", error: error.message },
-        { status: 500 }
+        { message: "Product not found" },
+        { status: 404 }
       );
     }
 
-    // Handle unknown errors
     return NextResponse.json(
-      { message: "An unexpected error occurred" },
-      { status: 500 }
+      { message: "Product updated successfully", product: updatedProduct },
+      { status: 200 }
     );
+  } catch (error) {
+    return handleCommonErrors(error);
+  }
+}
+
+/**
+ * DELETE /api/products/[id]
+ * Deletes a product (Admin Only)
+ */
+export async function DELETE(req: NextRequest, { params }: RouteParams) {
+  try {
+    // 1. Security Check
+    verifyAdmin(req);
+
+    await connectDB();
+    const { id } = await params;
+
+    // 2. Service Call
+    const deletedProduct = await ProductService.deleteProduct(id);
+
+    if (!deletedProduct) {
+      return NextResponse.json(
+        { message: "Product not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Product deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return handleCommonErrors(error);
   }
 }
