@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import connectDB from "@/lib/db/mongodb";
 import { ProductService } from "@/services/product.service";
 import { handleCommonErrors } from "@/utils/errorHandler";
+import { verifyAdmin } from "@/utils/auth-guard";
 
 // GET /api/products
 export async function GET() {
@@ -46,72 +47,15 @@ export async function GET() {
 }
 
 // POST /api/products
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
+    verifyAdmin(request);
     await connectDB();
     const body = await request.json();
 
     const newProduct = await ProductService.createProduct(body);
 
     return NextResponse.json(newProduct, { status: 201 });
-  } catch (error: unknown) {
-   return handleCommonErrors(error);
-  }
-}
-
-/**
- * PUT /api/products/[id]
- * Updates an existing product
- */
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    await connectDB();
-    const { id } = await params;
-    const body = await req.json();
-
-    const updatedProduct = await ProductService.updateProduct(id, body);
-
-    if (!updatedProduct) {
-      return NextResponse.json(
-        { message: "Product not found" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(updatedProduct, { status: 200 });
-  } catch (error: unknown) {
-   return handleCommonErrors(error);
-  }
-}
-
-/**
- * DELETE /api/products/[id]
- * Deletes a product
- */
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    await connectDB();
-    const { id } = await params;
-
-    const success = await ProductService.deleteProduct(id);
-
-    if (!success) {
-      return NextResponse.json(
-        { message: "Product not found" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(
-      { message: "Product deleted successfully" },
-      { status: 200 }
-    );
   } catch (error: unknown) {
     return handleCommonErrors(error);
   }

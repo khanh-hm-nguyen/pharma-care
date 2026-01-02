@@ -1,16 +1,10 @@
-"use client";
-
 import { Menu, FlashOn } from "@mui/icons-material";
 import Link from "next/link";
+import { ICategory } from "@/models";
+import { getAllCategories } from "@/actions/category.action";
 
-const BottomNav = () => {
-  const navLinks = [
-    { name: "Medicines", href: "/products/medicines" },
-    { name: "Vitamins", href: "/products/supplements" }, 
-    { name: "Devices", href: "/products/devices" },
-    { name: "Personal Care", href: "/products/personal-care" },
-    { name: "Health Services", href: "/services" },
-  ];
+const BottomNav = async () => {
+  const categories: ICategory[] = await getAllCategories();
 
   return (
     <div className="hidden md:block border-t border-gray-100 bg-gray-50/80 backdrop-blur-sm">
@@ -21,13 +15,13 @@ const BottomNav = () => {
             <span>All Categories</span>
           </button>
 
-          {navLinks.map((link) => (
+          {categories.map((category) => (
             <Link
-              key={link.name}
-              href={link.href}
+              key={category.name}
+              href={`/categories/${category.slug}`}
               className="whitespace-nowrap hover:text-teal-600 transition-colors"
             >
-              {link.name}
+              {category.name}
             </Link>
           ))}
 

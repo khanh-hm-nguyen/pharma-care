@@ -1,4 +1,4 @@
-import { Product, IProduct } from "@/models";
+import { Product, IProduct, Category } from "@/models";
 
 export class ProductService {
   // return all products
@@ -50,5 +50,22 @@ export class ProductService {
     }).lean<IProduct>();
 
     return product;
+  }
+
+  // return products by category
+  static async getProductsByCategory(slug: string): Promise<IProduct[]> {
+    const categoryDoc = await Category.findOne({ slug });
+
+    if (!categoryDoc) {
+      console.warn(`Category not found for slug: ${slug}`);
+      return []; // Return empty if category doesn't exist
+    }
+
+    // 2. Find Products with that Category ID
+    // .lean() converts Mongoose Documents to plain JavaScript objects (faster)
+    const products = await Product.find({ category: categoryDoc._id })
+      .sort({ createdAt: -1 })
+      .lean();
+    return products;
   }
 }

@@ -1,4 +1,4 @@
-import { Schema, model, models, Document } from 'mongoose';
+import { Schema, model, models, Document, Types } from 'mongoose';
 
 export interface IProduct extends Document {
   name: string;
@@ -7,7 +7,7 @@ export interface IProduct extends Document {
   price: number;
   originalPrice?: number;
   imageUrl: string;
-  category: string;
+  category: Types.ObjectId;
   stock: number;
   isPrescription: boolean;
   rating: number;
@@ -49,10 +49,11 @@ const ProductSchema = new Schema<IProduct>(
       type: String,
       required: [true, 'Product image is required'],
     },
-    category: {
-      type: String,
+   category: {
+      type: Schema.Types.ObjectId, // Stores the ID 
+      ref: 'Category',             // Tells Mongoose this ID belongs to the Category model
       required: [true, 'Category is required'],
-      index: true, // Common filter
+      index: true, 
     },
     stock: {
       type: Number,

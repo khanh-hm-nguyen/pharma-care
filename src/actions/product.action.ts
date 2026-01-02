@@ -12,3 +12,15 @@ export const getAllProducts = async () => {
     return [];
   }
 };
+
+export const getProductsByCategory = async (slug: string) => {
+  try {
+    await connectDB();
+
+    const products = await ProductService.getProductsByCategory(slug);
+    return JSON.parse(JSON.stringify(products));
+  } catch (error) {
+    console.error("Failed to fetch all products:", error);
+    return [];
+  }
+};
