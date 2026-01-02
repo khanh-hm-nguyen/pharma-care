@@ -1,9 +1,9 @@
-import { HomePage } from "@/components/home";
+import { ProductPage } from "@/components/product";
 
 const page = () => {
   return (
     <>
-      <HomePage />
+      <ProductPage />
     </>
   );
 };
