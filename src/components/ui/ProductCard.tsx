@@ -12,7 +12,6 @@ interface ProductCardProps {
   product: IProduct;
 }
 
-
 const ProductCard = ({ product }: ProductCardProps) => {
   const dispatch = useAppDispatch();
 
@@ -23,7 +22,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     //     quantity: 1,
     //   })
     // );
-    //console.log("added")
+    console.log("added")
   };
 
   return (
@@ -40,9 +39,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </div>
 
       <div className="flex flex-1 flex-col p-4">
-        <p className="mb-1 text-xs font-medium text-gray-500 uppercase tracking-wide">
-          {product.category}
-        </p>
         <Link href="#">
           <h3
             className="mb-2 text-sm font-bold text-gray-900 line-clamp-2 min-h-[40px]"

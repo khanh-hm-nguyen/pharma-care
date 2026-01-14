@@ -16,12 +16,12 @@ const ShopHeader = () => {
               <SearchBar />
             </div>
 
-            <div className="hidden xl:block">
+            {/* <div className="hidden xl:block">
               <button className="flex items-center gap-2 rounded-lg bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-100 border border-blue-200">
                 <FileUpload sx={{ fontSize: 20 }} />
                 <span>Upload Prescription</span>
               </button>
-            </div>
+            </div> */}
 
             <HeaderActions />
           </div>

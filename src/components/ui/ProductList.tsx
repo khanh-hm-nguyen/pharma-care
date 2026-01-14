@@ -1,11 +1,12 @@
 import { productGrid, section } from "@/utils/styles/layout";
-import ProductCard from "../ui/ProductCard";
+import ProductCard from "./ProductCard";
 import { IProduct } from "@/models";
-import { getAllProducts } from "@/actions/product.action";
 
-const ProductLists = async () => {
-  const products: IProduct[] = await getAllProducts();
+interface ProductListProp {
+  products: IProduct[];
+}
 
+const ProductLists = async ({ products }: ProductListProp) => {
   return (
     <div>
       {/* Product Grid */}
